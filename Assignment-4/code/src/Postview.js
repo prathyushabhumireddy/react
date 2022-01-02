@@ -1,76 +1,34 @@
-import React, { useEffect, useState } from "react";
-import './Postview.css'
+import React, {useState, useEffect} from 'react';
+import Postlist from './postlist.js'
+import Header from './header.js'
 
 
-const Usestate1 = () => {
+const Postview=()=> {
+  const [users, setUsers] = useState([]);
 
-
-  const [data, useData1] = useState([])
-  const date = new Date()
-
-  const GetCovidData = async () => {
-    const res = await fetch("http://localhost:3004/user");
-    const actualData = await res.json();
-
-
-    useData1(actualData)
-
-
+  const getData = async() => {
+    const url = 'http://localhost:3004/user';
+    let res = await fetch(url);
+    let users = await res.json();
+    setUsers(users);
   }
+
   useEffect(() => {
-    GetCovidData()
-  }, [])
-  console.log(data[0])
-
-
-
+    getData()
+  })
 
   return (
     <>
-      <div className="container">
-        <div className="nav">
-          <div className="logo"><i className="fab fa-instagram-square"></i><span>InstaClone</span></div>
-          <div className="camera"><i class="fas fa-camera"></i></div>
-        </div>
-
-        {
-
-          data.map((curElem, ind) => {
-            return (
-              <>
-                <div className="instacard">
-                  <div id="header">
-                    <div className="details">
-                      <h1>{curElem.name}</h1>
-                      <h2>{curElem.location}</h2>
-                    </div>
-                    <div className="poinsts">...</div>
-                  </div>
-                  <div id="image">
-                    <img src={curElem.PostImage}></img>
-                  </div>
-                  <div id="actions">
-                    <div className="like-comment">
-                      <div className="like"><i class="far fa-heart" ></i></div>
-                      <div className="like"><i class="far fa-comment-dots"></i></div>
-                    </div>
-                    <div className="date">{curElem.Date}</div>
-                  </div>
-                  <div className="likes">
-                  <p><span>{curElem.likes}</span>likes</p>
-                  </div>
-                  <div id="likes">
-                    <h1>{curElem.description}</h1>
-                  </div>
-                 
-                </div>
-              </>
-            )
-          })
-        }
-      </div>
+    <Header/>
+    <div className="site-container">
+      {
+        users && users.length > 0 && users.map((user, ind) => {
+          return <Postlist key={ind} name={user.name} location={user.location} likes={user.likes} description={user.description} PostImage={user.PostImage} date={user.date} />
+        })
+      }
+    </div>
     </>
-  )
+  );
 }
 
-export default Usestate1
+export default Postview;

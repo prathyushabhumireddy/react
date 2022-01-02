@@ -1,76 +1,20 @@
-import React, { useEffect, useState } from "react";
-import './Postview.css'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import App from './App';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
+ReactDOM.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 
-const Usestate1 = () => {
-
-
-  const [data, useData1] = useState([])
-  const date = new Date()
-
-  const GetCovidData = async () => {
-    const res = await fetch("http://localhost:3004/user");
-    const actualData = await res.json();
-
-
-    useData1(actualData)
-
-
-  }
-  useEffect(() => {
-    GetCovidData()
-  }, [])
-  console.log(data[0])
-
-
-
-
-  return (
-    <>
-      <div className="container">
-        <div className="nav">
-          <div className="logo"><i className="fab fa-instagram-square"></i><span>InstaClone</span></div>
-          <div className="camera"><i class="fas fa-camera"></i></div>
-        </div>
-
-        {
-
-          data.map((curElem, ind) => {
-            return (
-              <>
-                <div className="instacard">
-                  <div id="header">
-                    <div className="details">
-                      <h1>{curElem.name}</h1>
-                      <h2>{curElem.location}</h2>
-                    </div>
-                    <div className="poinsts">...</div>
-                  </div>
-                  <div id="image">
-                    <img src={curElem.PostImage}></img>
-                  </div>
-                  <div id="actions">
-                    <div className="like-comment">
-                      <div className="like"><i class="far fa-heart" ></i></div>
-                      <div className="like"><i class="far fa-comment-dots"></i></div>
-                    </div>
-                    <div className="date">{curElem.Date}</div>
-                  </div>
-                  <div className="likes">
-                  <p><span>{curElem.likes}</span>likes</p>
-                  </div>
-                  <div id="likes">
-                    <h1>{curElem.description}</h1>
-                  </div>
-                 
-                </div>
-              </>
-            )
-          })
-        }
-      </div>
-    </>
-  )
-}
-
-export default Usestate1
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
